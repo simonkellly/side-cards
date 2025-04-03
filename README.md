@@ -10,7 +10,7 @@ Side Cards is a flashcard plugin for Obsidian, designed to seamlessly integrate 
 To get started with this project, clone the repository, install the dependencies (using [Bun](https://bun.sh/) as the package manager), and run the following command:
 
 ```bash
-bun run dev
+bun dev
 ```
 
 ## Screenshots
