@@ -1,0 +1,338 @@
+/* --- Flashcard Pane (Sidebar) --- */
+.flashcard-pane {
+	padding: 0px; /* Consistent padding */
+	height: 100%; /* Allow scrolling within the pane */
+	overflow-y: auto; /* Enable vertical scrollbar when needed */
+}
+
+.flashcard-pane h4 {
+	margin-top: 0; /* Remove default top margin */
+	margin-bottom: 18px; /* More space below title */
+	border-bottom: 1px solid var(--background-modifier-border);
+	padding-bottom: 8px; /* Adjust padding */
+	font-size: 1.1em; /* Slightly larger title */
+	color: var(--text-normal);
+}
+
+.flashcard-list {
+	display: flex;
+	flex-direction: column;
+	gap: 12px; /* Space between cards */
+	padding: 0;
+	list-style-type: none;
+}
+
+/* --- Individual Flashcard Cards (Display Mode) --- */
+/* Applies to .flashcard-card and .flashcard-background */
+.flashcard-card.flashcard-background {
+	background-color: var(
+		--editor-bg-color
+	); /* Slightly different background */
+	border: 1px solid var(--background-modifier-border);
+	padding: 12px 15px; /* Adjust padding */
+	border-radius: 8px; /* More rounded corners */
+	cursor: pointer; /* Indicate clickable */
+	transition: background-color 0.2s ease, border-color 0.2s ease,
+		box-shadow 0.2s ease; /* Smooth transitions */
+	box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); /* Subtle shadow */
+}
+
+.flashcard-card.flashcard-background:hover {
+	background-color: var(--editor-bg-color);
+	border-color: var(--interactive-accent);
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slightly stronger shadow on hover */
+}
+
+/* Container for the rendered Markdown content */
+.flashcard-content-display {
+	font-size: 0.95em; /* Adjust base font size for content */
+	line-height: 1.5; /* Improve readability */
+	color: var(--text-normal);
+	/* Remove the line clamp to show more content by default */
+	/* Consider adding max-height and overflow: hidden if needed */
+	/* max-height: 200px; */
+	/* overflow: hidden; */
+}
+
+/* Remove default margins from paragraphs/headings inside the rendered content */
+.flashcard-content-display > :first-child {
+	margin-top: 0;
+}
+.flashcard-content-display > :last-child {
+	margin-bottom: 0;
+}
+
+.flashcard-content-display hr {
+	margin: 12px 0;
+}
+
+/* --- Missing Flashcard Placeholder --- */
+.flashcard-card.missing {
+	background-color: var(
+		--background-modifier-error-hover
+	); /* Use an error color */
+	border-color: var(--background-modifier-error);
+	cursor: default;
+	box-shadow: none; /* Remove shadow for missing cards */
+}
+.flashcard-card.missing:hover {
+	background-color: var(
+		--background-modifier-error-hover
+	); /* Keep error color on hover */
+	border-color: var(--background-modifier-error);
+	box-shadow: none;
+}
+.flashcard-card.missing strong {
+	color: var(--text-error);
+	margin-bottom: 8px;
+}
+.flashcard-card.missing p {
+	color: var(--text-muted);
+	font-size: 0.85em;
+	overflow: visible; /* Ensure path isn't cut off */
+	text-overflow: clip;
+	display: block;
+	-webkit-line-clamp: unset;
+}
+
+/* --- Highlight Effect (Focus) --- */
+.flashcard-highlight {
+	/* Use outline instead of animation for better accessibility and performance */
+	outline: 2px solid var(--interactive-accent);
+	outline-offset: 2px;
+	transition: outline 0.5s ease-out; /* Smooth fade-out for the outline */
+}
+/* Remove the outline after a delay (handled by JS timeout removing the class) */
+
+/* --- Editing Mode Styles --- */
+.flashcard-card.editing {
+	cursor: default; /* Not clickable when editing */
+	border-color: var(--interactive-accent); /* Highlight border */
+	box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Keep shadow */
+}
+
+/* Container for the TextAreaComponent */
+.flashcard-md-editor-container {
+	margin-bottom: 10px; /* Space below editor before buttons */
+}
+
+/* Style the TextAreaComponent's input element */
+.flashcard-markdown-editor {
+	width: 100%;
+	min-height: 180px; /* Default height for the combined editor */
+	padding: 10px;
+	border: 1px solid var(--background-modifier-border-focus); /* Slightly different border */
+	border-radius: 6px;
+	background-color: var(--editor-bg-color); /* Match editor background */
+	font-family: var(--font-monospace); /* Use monospace for editing */
+	font-size: 0.9em;
+	line-height: 1.6;
+	resize: vertical; /* Allow vertical resizing */
+	transition: border-color 0.2s ease;
+}
+
+.flashcard-markdown-editor:focus {
+	border-color: var(--interactive-accent);
+	outline: none; /* Remove default browser outline */
+	box-shadow: 0 0 0 2px var(--interactive-accent-alpha); /* Subtle focus ring */
+}
+
+/* --- Action Buttons (Save/Cancel) --- */
+.flashcard-edit-actions {
+	display: flex;
+	justify-content: flex-end; /* Align buttons to the right */
+	gap: 0px; /* Space between buttons */
+}
+
+.flashcard-delete-button {
+	padding: var(--size-4-1);
+	border-radius: var(--radius-s);
+	border: 1px solid var(--background-modifier-border);
+	background-color: var(--background-primary);
+	color: var(--text-error);
+	cursor: pointer;
+	transition: all var(--animation-duration-fast) var(--animation-easing);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: var(--size-4-4);
+	height: var(--size-4-4);
+}
+
+.flashcard-delete-button:hover {
+	background-color: var(--background-modifier-error-hover);
+	border-color: var(--background-modifier-error);
+	color: var(--text-error);
+}
+
+.flashcard-card {
+	position: relative;
+	padding-right: 30px; /* Make room for the delete button */
+}
+
+/* Flashcard Manager View Styles */
+.flashcard-manager-view {
+	padding: var(--size-4-4);
+	height: 100%;
+	display: flex;
+	flex-direction: column;
+	background-color: var(--background-primary);
+}
+
+.flashcard-manager-header {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: var(--size-4-4);
+	padding-bottom: var(--size-4-2);
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.sort-controls {
+	display: flex;
+	gap: var(--size-4-2);
+}
+
+.sort-button,
+.export-button,
+.delete-unreferenced-button {
+	padding: var(--size-4-2) var(--size-4-3);
+	border-radius: var(--radius-s);
+	border: 1px solid var(--background-modifier-border);
+	background-color: var(--background-primary);
+	color: var(--text-normal);
+	cursor: pointer;
+	transition: all var(--animation-duration-fast) var(--animation-easing);
+	font-size: var(--font-ui-smaller);
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-2);
+	white-space: nowrap;
+}
+
+.sort-button:hover,
+.export-button:hover {
+	background-color: var(--background-modifier-hover);
+	border-color: var(--background-modifier-border-hover);
+}
+
+.delete-unreferenced-button {
+	color: var(--text-error);
+	border-color: var(--background-modifier-error);
+}
+
+.delete-unreferenced-button:hover {
+	background-color: var(--background-modifier-error-hover);
+}
+
+.flashcard-list {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	gap: var(--size-4-3);
+}
+
+.flashcard-item {
+	/* Remove border and padding - these are now handled by the card wrapper */
+	padding: 0;
+	border: none;
+	border-radius: 0;
+	background-color: transparent;
+	transition: all var(--animation-duration-fast) var(--animation-easing);
+}
+
+.flashcard-item:hover {
+	/* Remove border and shadow from item since card-wrapper handles this */
+	border-color: transparent;
+	box-shadow: none;
+}
+
+.flashcard-content {
+	margin-bottom: var(--size-4-3);
+	padding: 15px;
+	border-bottom: 1px solid var(--background-modifier-border);
+}
+
+.flashcard-text {
+	font-size: var(--font-ui-medium);
+	line-height: var(--line-height-normal);
+	color: var(--text-normal);
+	margin-bottom: var(--size-4-2);
+	white-space: pre-wrap;
+}
+
+.flashcard-metadata {
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	font-size: var(--font-ui-smaller);
+	color: var(--text-muted);
+	padding: 8px 15px;
+	background-color: var(--background-secondary);
+	border-radius: 0 0 4px 4px;
+	font-size: 0.85em;
+}
+
+.flashcard-date {
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-1);
+}
+
+.flashcard-source {
+	color: var(--text-normal);
+	text-decoration: none;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	gap: var(--size-4-1);
+	padding: var(--size-4-1) var(--size-4-2);
+	border-radius: var(--radius-s);
+	transition: all var(--animation-duration-fast) var(--animation-easing);
+}
+
+.flashcard-source:hover {
+	background-color: var(--background-modifier-hover);
+	text-decoration: none;
+	color: var(--text-accent);
+}
+
+.flashcard-card-wrapper {
+	display: flex;
+	flex-direction: column;
+	border: 1px solid var(--background-modifier-border);
+	border-radius: var(--radius-s);
+	margin-bottom: 0; /* Remove extra margin */
+	background-color: var(--background-primary);
+	box-shadow: none; /* Remove default shadow */
+	transition: all var(--animation-duration-fastest) var(--animation-easing);
+}
+
+/* Adjust hover effect to be more subtle and use Obsidian variables */
+.flashcard-card-wrapper:hover {
+	border-color: var(--background-modifier-border-hover);
+	background-color: var(--background-secondary-alt);
+	/* Use extremely subtle shadow or none at all */
+	box-shadow: var(--shadow-s);
+}
+
+.flashcard-metadata-info {
+	display: flex;
+	gap: 12px;
+}
+
+.flashcard-date,
+.flashcard-source {
+	display: flex;
+	align-items: center;
+	gap: 4px;
+	color: var(--text-muted);
+}
+
+.flashcard-icon {
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+}
