@@ -2,11 +2,11 @@ name: Release Obsidian plugin
 
 on:
     push:
-        branches:
-            - main
+        tags:
+            - "*"
 
 jobs:
-    release:
+    build:
         runs-on: ubuntu-latest
         permissions:
             contents: write
@@ -23,17 +23,13 @@ jobs:
                   bun install
                   bun run build
 
-            - name: Update dev release
+            - name: Create release
               env:
                   GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
               run: |
-                  # Delete previous dev release if it exists
-                  gh release delete dev --yes || true
-                  # Delete the tag if it exists
-                  git push --delete origin dev || true
+                  tag="${GITHUB_REF#refs/tags/}"
 
-                  # Create new dev release
-                  gh release create dev \
-                    --title="Development Build" \
-                    --notes="Latest development build from commit ${GITHUB_SHA}" \
+                  gh release create "$tag" \
+                    --title="$tag" \
+                    --draft \
                     main.js manifest.json styles.css
