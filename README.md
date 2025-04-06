@@ -17,8 +17,8 @@ bun dev
 
 ### Flashcards/Notes View
 
-![](screenshots/flashcard-panel.png)
+![](screenshots/flashcard-panel.webp)
 
 ### Deck Manager
 
-![](screenshots/deck-view.png)
+![](screenshots/deck-view.webp)
