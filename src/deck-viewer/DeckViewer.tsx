@@ -11,8 +11,9 @@ import {
   HeaderContext,
 } from "@tanstack/react-table";
 import "./deck-viewer.css";
-import { DownloadIcon, HammerIcon, ArrowUp, ArrowDown, ArchiveIcon } from "lucide-react";
+import { DownloadIcon, HammerIcon, ArrowUp, ArrowDown, ArchiveIcon, StarIcon } from "lucide-react";
 import { Menu } from "obsidian";
+import { downloadAnkiCSV, exportToAnkiConnect } from "@/lib/anki";
 
 function SortingIcon({ isSorted }: { isSorted: false | "asc" | "desc" }) {
   if (!isSorted) return null;
@@ -132,13 +133,22 @@ export default function DeckViewer() {
             <ArchiveIcon className="svg-icon" />
           </button>
         </div>
-        <button
-          aria-label="Export cards"
-          className="mod-cta"
-          onClick={() => {}}
-        >
-          <DownloadIcon className="svg-icon" />
-        </button>
+        <div className="button-group">
+          <button
+            aria-label="Export via AnkiConnect"
+            className=""
+            onClick={() => exportToAnkiConnect()}
+          >
+            <StarIcon className="svg-icon" />
+          </button>
+          <button
+            aria-label="Export cards"
+            className="mod-cta"
+            onClick={() => downloadAnkiCSV()}
+          >
+            <DownloadIcon className="svg-icon" />
+          </button>
+        </div>
       </div>
       <div className="search-container">
         <input

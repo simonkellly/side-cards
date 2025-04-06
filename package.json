@@ -32,11 +32,14 @@
 	},
 	"dependencies": {
 		"@tanstack/react-table": "^8.21.2",
+		"csv-writer": "^1.6.0",
 		"lucide-react": "^0.487.0",
 		"nanoid": "^5.1.5",
 		"react": "^19.1.0",
 		"react-dom": "^19.1.0",
 		"react-textarea-autosize": "^8.5.9",
+		"rollup-plugin-node-polyfills": "^0.2.1",
+		"yanki-connect": "^2.2.1",
 		"zustand": "^5.0.3"
 	}
 }
