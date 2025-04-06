@@ -13,7 +13,7 @@ export const Flashcard = ({ card, toggleExpand, expanded, setEditing }: {
   const expandedClass = expanded ? "expanded" : "";
 
   return (
-    <div className="flashcard">
+    <div className="flashcard" id={card.id}>
       <div className="flashcard-header">
         <div className="left">
           <button aria-label="Delete card" className="clickable-icon left" onClick={() => deleteCard(card.id)}>

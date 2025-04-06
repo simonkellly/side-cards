@@ -145,8 +145,8 @@ export const useFlashcardStore = create<FlashcardStoreState>()(persist((set) => 
     createFlashcard: async (filePath) => {
       const newCard: RawFlashcard = {
         id: newId(),
-        text: "Question here?\n{{c1::Answer}}",
-        extra: "Extra info here",
+        text: "",
+        extra: "",
         filePath: filePath,
       }
       set((state) => ({ flashcards: [...state.flashcards, newCard] }));

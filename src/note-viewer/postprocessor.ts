@@ -1,4 +1,5 @@
 import { FLASHCARD_LINK_REGEX } from "@/constants";
+import { useEditStore } from "@/lib/edit-store";
 import SideCards from "@/main";
 
 export function registerFlashcardLinkPostprocessor(plugin: SideCards) {
@@ -45,7 +46,7 @@ function createPostProcessor(element: HTMLElement) {
       span.className = "flashcard-link";
 
       span.addEventListener("click", () => {
-        new Notice("Clicked on a flashcard link! (" + id + ")");
+        useEditStore.setState({ focusedId: id });
       });
 
       temp.appendChild(span);

@@ -4,6 +4,7 @@ import { FLASHCARD_LINK_REGEX } from "@/constants";
 import SideCards from "@/main";
 import "./flashcard-link.css";
 import { useFlashcardStore } from "@/lib/flashcard-store";
+import { useEditStore } from "@/lib/edit-store";
 
 export function registerFlashcardLinkEditor(plugin: SideCards) {
   plugin.addCommand({
@@ -24,8 +25,13 @@ export function registerFlashcardLinkEditor(plugin: SideCards) {
       );
 
       editor.setCursor(editor.getCursor("from").line, editor.getCursor("from").ch + card.id.length + 2);
-    },
-  });
+
+      useEditStore.setState((state) => ({
+        focusedId: card.id,
+        editingIds: [...state.editingIds, card.id],
+      }));
+    }}
+  );
 
   return plugin.registerEditorExtension(createFlashcardLinkExtension());
 }
@@ -47,7 +53,7 @@ class FlashcardLinkWidget extends WidgetType {
     span.className = "flashcard-link";
 
     span.addEventListener("click", () => {
-      new Notice("Clicked on a flashcard link! (" + this.id + ")");
+      useEditStore.setState({ focusedId: this.id });
     });
 
     return span;

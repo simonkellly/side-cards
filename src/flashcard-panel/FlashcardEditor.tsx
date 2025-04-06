@@ -128,7 +128,7 @@ export default function FlashcardEditor({ card, setIsEditing }: {
   });
 
   return (
-    <div className="flashcard flashcard-editor">
+    <div className="flashcard flashcard-editor" id={card.id}>
       <input 
         type="file" 
         ref={fileInputRef} 
@@ -149,12 +149,14 @@ export default function FlashcardEditor({ card, setIsEditing }: {
         <div className="flashcard-editor-field">
           <label htmlFor="flashcard-text">Flashcard Text:</label>
           <TextareaAutosize
+            placeholder='Question? Answer!'
             {...createTextareaProps('flashcard-text', textValue, setTextValue, textAreaRef)}
           />
         </div>
         <div className="flashcard-editor-field">
           <label htmlFor="flashcard-extra">Additional Info:</label>
           <TextareaAutosize
+            placeholder='Extra info'
             {...createTextareaProps('flashcard-extra', extraValue, setExtraValue)}
           />
         </div>
