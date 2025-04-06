@@ -1,15 +1,37 @@
 import { StrictMode } from 'react';
-import { DECK_VIEWER_VIEW_TYPE, FLASHCARD_PANEL_VIEW_TYPE } from '@/constants';
+import { DECK_VIEWER_VIEW_TYPE } from '@/constants';
 import { ItemView, Plugin, WorkspaceLeaf } from 'obsidian';
 import { Root, createRoot } from 'react-dom/client';
+import DeckViewer from './DeckViewer';
+import "./deck-viewer.css";
 
-export function registerFlashcardPanel(plugin: Plugin) {
+export function registerDeckViewer(plugin: Plugin) {
   plugin.registerView(
     DECK_VIEWER_VIEW_TYPE,
     (leaf) => {
       return new DeckViewerView(leaf);
     }
   );
+
+  const openDeckViewer = async () => {
+    let leaf = plugin.app.workspace.getLeavesOfType(DECK_VIEWER_VIEW_TYPE)[0];
+    if (!leaf) {
+      leaf = plugin.app.workspace.getLeaf(true);
+      await leaf.setViewState({
+        type: DECK_VIEWER_VIEW_TYPE,
+        active: true,
+      });
+    }
+    plugin.app.workspace.revealLeaf(leaf);
+  }
+
+  plugin.addCommand({
+    id: 'open-deck-viewer',
+    name: 'Open Deck Viewer',
+    callback: openDeckViewer,
+  })
+
+  plugin.addRibbonIcon('gallery-vertical-end', 'Deck Viewer', openDeckViewer);
 }
 
 export class DeckViewerView extends ItemView {
@@ -20,7 +42,7 @@ export class DeckViewerView extends ItemView {
 	}
 
 	getViewType() {
-		return FLASHCARD_PANEL_VIEW_TYPE;
+		return DECK_VIEWER_VIEW_TYPE;
 	}
 
 	getDisplayText() {
@@ -31,11 +53,12 @@ export class DeckViewerView extends ItemView {
     return 'gallery-vertical-end';
   }
 
+
   async onOpen() {
 		this.root = createRoot(this.contentEl);
 		this.root.render(
 			<StrictMode>
-				<FlashcardPanel />
+				<DeckViewer />
 			</StrictMode>
 		);
 	}

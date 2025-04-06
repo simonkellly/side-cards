@@ -1,17 +1,9 @@
 import { EditorView, WidgetType, Decoration, DecorationSet, MatchDecorator, ViewPlugin, ViewUpdate } from "@codemirror/view";
 import { Extension, RangeSetBuilder } from "@codemirror/state";
 import { FLASHCARD_LINK_REGEX } from "@/constants";
-import { TFile } from "obsidian";
 import SideCards from "@/main";
 import "./flashcard-link.css";
 import { useFlashcardStore } from "@/lib/flashcard-store";
-
-const createFlashcard = async (file: TFile, plugin: SideCards) => {
-  const flashcardId = Math.random().toString(36).substring(2, 8);
-  const flashcardContent = `# Flashcard ${flashcardId}\n\n- Question: \n- Answer: `;
-  const flashcardFile = file.name + flashcardContent + plugin.manifest;
-  return { id: flashcardId, file: flashcardFile };
-}
 
 export function registerFlashcardLinkEditor(plugin: SideCards) {
   plugin.addCommand({
@@ -23,9 +15,8 @@ export function registerFlashcardLinkEditor(plugin: SideCards) {
         return;
       }
 
-      useFlashcardStore.getState().createFlashcard(ctx.file.path);
+      const card = await useFlashcardStore.getState().createFlashcard(ctx.file.path);
 
-      const card = await createFlashcard(ctx.file, plugin);
       editor.replaceRange(
         `%!${card.id}`,
         editor.getCursor("from"),

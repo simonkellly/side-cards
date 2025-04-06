@@ -1,0 +1,79 @@
+.deck-viewer {
+  width: 100%;
+  gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+
+  & .button-group {
+    display: flex;
+    gap: 0.5rem;
+  }
+
+  & .header-buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex: 1;
+  }
+
+  & .header-with-sort {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    cursor: pointer;
+    user-select: none;
+  }
+
+  & .sort-icon {
+    opacity: 0.5;
+  }
+
+  & .header-with-sort:hover .sort-icon {
+    opacity: 1;
+  }
+
+  & .search-input {
+    padding: 0.5rem 1rem;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 0.25rem;
+    width: 100%;
+    background-color: var(--background-modifier-form-field);
+    color: var(--text-normal);
+  }
+
+  & .table-container {
+    overflow-x: auto;
+  }
+
+  & .deck-table {
+    min-width: 100%;
+    background-color: var(--background-primary);
+    border: 1px solid var(--background-modifier-border);
+    border-collapse: collapse;
+    color: var(--text-normal);
+  }
+
+  & .table-header-row {
+    background-color: var(--background-secondary);
+    border-bottom: 1px solid var(--background-modifier-border);
+  }
+
+  & .table-header-cell {
+    padding: 0.75rem 1.5rem;
+    text-align: left;
+    font-weight: 500;
+    color: var(--text-muted);
+  }
+
+  & .table-row {
+    border-bottom: 1px solid var(--background-modifier-border);
+  }
+
+  & .table-row:hover {
+    background-color: var(--background-modifier-hover);
+  }
+
+  & .table-cell {
+    padding: 0.75rem 1.5rem;
+  }
+}

@@ -1,8 +1,8 @@
-import { processFlashcard, RawFlashcard, useFlashcardStore } from "@/lib/flashcard-store";
+import { processFlashcard, SortedFlashcard, useFlashcardStore } from "@/lib/flashcard-store";
 import { PencilIcon, TrashIcon } from "lucide-react";
 
 export const Flashcard = ({ card, toggleExpand, expanded, setEditing }: {
-  card: RawFlashcard,
+  card: SortedFlashcard,
   toggleExpand: () => void,
   expanded: boolean,
   setEditing: () => void,
@@ -20,7 +20,11 @@ export const Flashcard = ({ card, toggleExpand, expanded, setEditing }: {
             <TrashIcon className="svg-icon" />
           </button>
         </div>
-        <div className="title">Card: {card.id}</div>
+        <div className="title">
+          <span className="sorted-hidden">●</span>
+            Card: {card.id}
+          <span className={card.isSorted ? "sorted" : "not-sorted"}>●</span>
+        </div>
         <div className="right">
           <button aria-label="Edit card" className="clickable-icon right" onClick={() => setEditing()}>
             <PencilIcon className="svg-icon" />

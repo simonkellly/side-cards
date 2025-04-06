@@ -26,8 +26,6 @@ function createPostProcessor(element: HTMLElement) {
     const text = node.textContent;
     if (!text) continue;
 
-    if (!FLASHCARD_LINK_REGEX.test(text)) continue;
-
     const temp = document.createElement('span');
     let lastIndex = 0;
     let match;

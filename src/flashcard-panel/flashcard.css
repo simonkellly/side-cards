@@ -20,6 +20,10 @@
     border-style: solid;
     border-radius: var(--radius-m);
     border-color: var(--background-modifier-border);
+
+    overflow-wrap: break-word;
+    word-break: break-word;
+    hyphens: auto;
   }
 
   & .flashcard-header {
@@ -34,6 +38,16 @@
     display: flex;
     justify-content: stretch;
     align-items: center;
+
+    & .sorted-hidden, & .sorted {
+      color: transparent;
+      padding: 0 5px;
+    }
+
+    & .not-sorted {
+      color: var(--color-red);
+      padding: 0 5px;
+    }
 
     & .left {
       flex: 1;
@@ -69,6 +83,7 @@
     -webkit-box-orient: vertical;
     white-space: normal;
   }
+  
   & .flashcard-extra:not(.expanded) p::after {
     content: '';
     position: absolute;
@@ -78,6 +93,36 @@
     height: 100%;
     background: linear-gradient(to bottom, transparent, var(--background-primary));
     pointer-events: none;
+  }
+  
+  & .flashcard-extra:not(.expanded) img {
+    max-height: none;  /* Remove height limitation */
+    height: 60px;  /* Fixed height to cut off content */
+    width: 100%;  /* Full width */
+    object-fit: cover;
+    object-position: top;
+    overflow: hidden;
+    position: relative;
+    margin-bottom: calc(var(--size-4-3) * -0.75);
+    display: block;
+  }
+  
+  /* The pseudo-element won't work directly on img elements, 
+     so we need a different approach for the gradient */
+  & .flashcard-extra:not(.expanded) {
+    position: relative;
+  }
+  
+  & .flashcard-extra:not(.expanded)::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 30px;
+    background: linear-gradient(to bottom, transparent, var(--background-primary));
+    pointer-events: none;
+    z-index: 1;
   }
 
   /* ==== Card text stylings ==== */
