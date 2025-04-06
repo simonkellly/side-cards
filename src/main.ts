@@ -1,37 +1,32 @@
-import { Notice, Plugin, PluginSettingTab, Setting } from "obsidian";
-import { text } from "./i18next";
+import { MarkdownView, Plugin } from "obsidian";
+import { registerFlashcardLinkEditor } from "./note-viewer/editor-extension";
+import { registerFlashcardLinkPostprocessor } from "./note-viewer/postprocessor";
+import { usePluginStore } from "./lib/plugin-store";
+import { registerFlashcardPanel } from "./flashcard-panel/view";
 
-export default class ObsidianVite extends Plugin {
-	onload(): Promise<void> | void {
-		new Notice("ObsidianVite plugin loaded");
-		this.addSettingTab(new ObsidianViteSettingTab(this.app, this));
+export default class SideCards extends Plugin {
+  private setupPluginStore() {
+    usePluginStore.setState({ plugin: this });
+    this.registerEvent(
+      this.app.workspace.on('active-leaf-change', (leaf) => {
+        if (!leaf || !leaf.view) return;
+        if (leaf.view.getViewType() !== 'markdown') return;
+        
+        const mdView = leaf.view as MarkdownView;
+        const file = mdView.file;
+        if (!file) return;
+        
+        usePluginStore.setState({ currentFile: file });
+      })
+    );
+  }
 
-		i18nextExample();
-	}
+	onload() {
+    this.setupPluginStore();
 
-	onunload(): void {
-		new Notice("ObsidianVite plugin unloaded");
+    registerFlashcardLinkEditor(this);
+    registerFlashcardLinkPostprocessor(this);
+
+    registerFlashcardPanel(this);
 	}
 }
-
-class ObsidianViteSettingTab extends PluginSettingTab {
-	display(): void {
-		const { containerEl } = this;
-		containerEl.empty();
-
-		new Setting(containerEl)
-			.setName("A sample setting")
-			.setDesc("some description.")
-			.addText((cmp) =>
-				cmp
-					.setPlaceholder("placeholder text")
-					.onChange((v) => console.log("sample setting changed: ", v))
-			);
-	}
-}
-
-// EXAMPLE using i18next
-const i18nextExample = () => {
-	new Notice(text("hello"));
-	new Notice(text("good.morning"));
-};
